@@ -1,0 +1,24 @@
+import os
+import sys
+import pandas as pd
+from pathlib import Path 
+sys.path.append(str(Path(__file__).parent.parent))
+from logger import logging
+from exception import CustomException
+
+from components.data_ingestion import DataIngestion
+sys.path.insert(0, 'D:\DiamondPricePrediction\src\components')
+from data_ingestion import *
+from data_transformation import *
+from model_trainer import ModelTrainer
+
+
+if __name__=='__main__':
+    obj=DataIngestion()
+    train_data_path,test_data_path=obj.initiate_data_ingestion()
+    print(train_data_path,test_data_path)
+    data_transformation=DataTransformation()
+
+    train_arr,test_arr,_=data_transformation.initiate_data_transformation(train_data_path,test_data_path)
+    model_trainer=ModelTrainer()
+    model_trainer.initate_model_training(train_arr,test_arr)
